@@ -23,11 +23,11 @@ Built with a "Uganda-First" accessible design, the application can take in both 
 Install the dependencies:
 
 bash
-pip install -r requirements.txt
+   pip install -r requirements.txt
 Start the application:
 
 bash
-streamlit run app.py
+   streamlit run app.py
 Use it:
 
 Add your Sunbird API keys into the Streamlit sidebar.
