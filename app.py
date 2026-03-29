@@ -22,61 +22,97 @@ vector_store = get_vector_store()
 # --- STREAMLIT UI ---
 st.set_page_config(page_title="Digital Extension Worker", page_icon="🌾", layout="wide")
 
-# Tailwind / Custom CSS injection for Uganda-First Theme
+# Tailwind / Custom CSS injection for "Ruixen Agric" Theme
 st.markdown("""
 <style>
-    /* Main Background: slate-900 */
+    /* Main Background: Dark Agricultural Cinematic */
     .stApp {
-        background-color: #0f172a;
-        color: #f8fafc;
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                    url('https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&q=80&w=2070');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        color: #f0fdf4;
     }
     
-    /* Sidebar Background: slate-800 */
+    /* Ruixen-style Glassmorphism for Sidebars */
     [data-testid="stSidebar"] {
-        background-color: #1e293b;
+        background-color: rgba(0, 0, 0, 0.6) !important;
+        backdrop-filter: blur(10px);
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
     }
     
-    /* Headers and Text */
-    h1, h2, h3, p, div {
-        color: #f8fafc;
+    /* Headers & Text Style */
+    h1 {
+        font-weight: 700 !important;
+        letter-spacing: -1px !important;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
     }
     
-    /* Buttons: orange-600 */
+    /* Ruixen-Style Buttons (Quick Actions) */
     .stButton>button {
-        background-color: #ea580c !important;
-        color: white !important;
-        border: none !important;
-        border-radius: 0.375rem !important;
-        padding: 0.5rem 1rem !important;
-        font-weight: 600 !important;
+        background-color: rgba(0, 0, 0, 0.5) !important;
+        color: #d1d5db !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 9999px !important; /* Full pill shape */
+        padding: 0.4rem 1rem !important;
+        font-size: 0.8rem !important;
+        transition: all 0.2s ease !important;
     }
     .stButton>button:hover {
-        background-color: #c2410c !important; /* orange-700 on hover */
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        color: white !important;
+        border-color: rgba(255, 255, 255, 0.3) !important;
+        transform: translateY(-1px);
     }
     
-    /* Accents & Highlights: amber-500 */
-    .stFileUploader>div>div>div>button {
-        color: #f59e0b !important;
-    }
-    
-    /* Chat Messages */
+    /* Chat Messages: Layered styling */
     [data-testid="stChatMessage"] {
-        background-color: #1e293b;
-        border-radius: 0.5rem;
-        padding: 1rem;
-        margin-bottom: 1rem;
-        border-left: 4px solid #f59e0b; /* amber-500 accent */
+        background-color: rgba(0, 0, 0, 0.6) !important;
+        backdrop-filter: blur(8px);
+        border-radius: 16px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* User: Ruixen Neutral Border */
+    [data-testid="stChatMessage"]:has([data-testid="stChatUser"]) {
+        border-left: 4px solid #4ade80; /* Green accent */
+    }
+
+    /* Assistant: Golden Sunbird Border */
+    [data-testid="stChatMessage"]:has([data-testid="stChatAssistant"]) {
+        border-left: 4px solid #facc15; /* Yellow accent */
     }
     
     /* Chat Input Background */
     [data-testid="stChatInput"] {
-        background-color: #334155 !important;
+        background-color: rgba(0, 0, 0, 0.7) !important;
+        border-radius: 12px !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        backdrop-filter: blur(12px);
     }
 </style>
 """, unsafe_allow_html=True)
 
-st.title("🌾 Digital Extension Worker")
-st.markdown("Ask agricultural questions based on verified local manuals.")
+# Centered AI Branding similar to Ruixen Moon
+st.markdown("<div style='text-align: center; padding: 50px 0;'>", unsafe_allow_html=True)
+st.markdown("<h1 style='font-size: 3.5rem; margin-bottom: 10px;'>🌾 Digital Extension</h1>", unsafe_allow_html=True)
+st.markdown("<p style='color: #9ca3af; font-size: 1.2rem;'>Harvest intelligence — ask your agricultural questions below.</p>", unsafe_allow_html=True)
+st.markdown("</div>", unsafe_allow_html=True)
+
+# --- QUICK ACTIONS (Ruixen Style) ---
+cols = st.columns(4)
+with cols[0]:
+    if st.button(" Crop Advice"): st.session_state.messages.append({"role": "user", "content": "How do I maximize crop yield?"})
+with cols[1]:
+    if st.button(" Pest Control"): st.session_state.messages.append({"role": "user", "content": "Tell me about common pest management."})
+with cols[2]:
+    if st.button(" Weather Tips"): st.session_state.messages.append({"role": "user", "content": "How does current weather affect planting?"})
+with cols[3]:
+    if st.button(" Manual Search"): st.session_state.messages.append({"role": "user", "content": "Search the manuals for soil prep."})
 
 # --- SIDEBAR ---
 with st.sidebar:
