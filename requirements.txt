@@ -1,0 +1,6 @@
+streamlit
+llama-index-core
+llama-index-vector-stores-chroma
+llama-index-embeddings-huggingface
+chromadb
+requests
